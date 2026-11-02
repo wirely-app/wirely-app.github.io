@@ -212,7 +212,8 @@ _PARTS = [
     # ---------------------------------------------------------------- transistors
     PartDef("npn", "NPN transistor", "Transistors", "Q",
             (("B", -30, 0), ("C", 10, -30), ("E", 10, 30)),
-            (_p("model", "Type", "BC548", kind="choice", choices=("BC548", "BC547", "BC337", "2N3904", "2N2222", "BD139", "TIP31", "TIP120")),),
+            (_p("model", "Type", "BC548", kind="choice",
+                choices=("BC548", "BC547", "BC337", "2N3904", "2N2222", "BD139", "TIP31", "TIP120", "BUF420AW")),),
             (-30, -30, 50, 60), "A small current into the base switches a bigger current.", "bjt bc548", short="NPN"),
     PartDef("pnp", "PNP transistor", "Transistors", "Q",
             (("B", -30, 0), ("C", 10, 30), ("E", 10, -30)),

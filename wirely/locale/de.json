@@ -341,6 +341,7 @@
 "PNP transistor": "PNP-Transistor",
 "PNP": "PNP",
 "Like NPN but turns on when the base is pulled low.": "Wie NPN, schaltet aber ein, wenn die Basis nach unten gezogen wird.",
+"High-voltage fast-switching power NPN (TO-247): 30 A, 450 V (1000 V with the base shorted to the emitter), 250 W. Made for switch-mode supplies, ballasts and inverters. Its gain is low (about 10 at high current), so it needs a strong base current, often from a driver stage.": "Schneller Hochspannungs-Leistungs-NPN (TO-247): 30 A, 450 V (1000 V bei Basis-Emitter-Kurzschluss), 250 W. Gebaut für Schaltnetzteile, Vorschaltgeräte und Wechselrichter. Seine Verstärkung ist gering (etwa 10 bei hohem Strom), daher braucht er einen kräftigen Basisstrom, oft von einer Treiberstufe.",
 "Lamp": "Lampe",
 "Output devices": "Ausgabegeräte",
 "A filament bulb.": "Eine Glühlampe.",

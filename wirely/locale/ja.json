@@ -341,6 +341,7 @@
 "PNP transistor": "PNP トランジスタ",
 "PNP": "PNP",
 "Like NPN but turns on when the base is pulled low.": "NPN と同様ですが、ベースを低電位にするとオンになります。",
+"High-voltage fast-switching power NPN (TO-247): 30 A, 450 V (1000 V with the base shorted to the emitter), 250 W. Made for switch-mode supplies, ballasts and inverters. Its gain is low (about 10 at high current), so it needs a strong base current, often from a driver stage.": "高電圧・高速スイッチング用パワー NPN (TO-247): 30 A、450 V(ベースをエミッタに短絡すると 1000 V)、250 W。スイッチング電源、安定器、インバータ向け。ゲインが低く(大電流時で約 10)、強いベース電流が必要なため、ドライバ段を併用することが多いです。",
 "Lamp": "ランプ",
 "Output devices": "出力デバイス",
 "A filament bulb.": "フィラメント電球。",
