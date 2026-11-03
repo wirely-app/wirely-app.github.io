@@ -105,10 +105,18 @@ jobs:
           if [ "${{ github.event_name }}" = "release" ]; then TAG="${{ github.event.release.tag_name }}"; else TAG=test-builds; fi
           gh release upload "$TAG" dist/Wirely-Setup-*.exe --clobber
 
-  # ------------------------------------------------------------------ Mac: .dmg (Apple Silicon)
+    # ------------------------------------------------------------------ Mac: .dmg (Apple Silicon and Intel)
   mac:
     needs: prepare
-    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-latest        # Apple Silicon
+            arch: arm64
+          - runner: macos-15-intel      # Intel
+            arch: intel
+    runs-on: ${{ matrix.runner }}
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
@@ -122,26 +130,26 @@ jobs:
       - name: Run the tests
         env:
           WIRELY_NO_SOUND: "1"
-        run: QT_QPA_PLATFORM=offscreen python -m pytest -q tests 2>&1 | tee test-results.txt
+        run: QT_QPA_PLATFORM=offscreen python -m pytest -q tests 2>&1 | tee test-results-${{ matrix.arch }}.txt
       - name: Build Wirely.app and the .dmg
-        run: bash packaging/mac/build_mac.sh 2>&1 | tee build-log.txt
+        run: bash packaging/mac/build_mac.sh 2>&1 | tee build-log-${{ matrix.arch }}.txt
       - name: Start the app and take a screenshot
         continue-on-error: true
         run: |
-          dist/Wirely.app/Contents/MacOS/Wirely "examples/555 LED flasher.wirely" --snapshot "$PWD/mac-screenshot.png" > app-log.txt 2>&1 &
+          dist/Wirely.app/Contents/MacOS/Wirely "examples/555 LED flasher.wirely" --snapshot "$PWD/mac-screenshot-${{ matrix.arch }}.png" > app-log-${{ matrix.arch }}.txt 2>&1 &
           APP=$!
           for i in $(seq 1 60); do kill -0 $APP 2>/dev/null || break; sleep 1; done
-          if [ -f mac-screenshot.png ]; then echo "SNAPSHOT OK" >> app-log.txt; else echo "NO SNAPSHOT" >> app-log.txt; fi
+          if [ -f mac-screenshot-${{ matrix.arch }}.png ]; then echo "SNAPSHOT OK" >> app-log-${{ matrix.arch }}.txt; else echo "NO SNAPSHOT" >> app-log-${{ matrix.arch }}.txt; fi
           kill $APP 2>/dev/null || true
       - uses: actions/upload-artifact@v4
         with:
-          name: wirely-mac
+          name: wirely-mac-${{ matrix.arch }}
           path: |
             dist/*.dmg
-            mac-screenshot.png
-            app-log.txt
-            build-log.txt
-            test-results.txt
+            mac-screenshot-${{ matrix.arch }}.png
+            app-log-${{ matrix.arch }}.txt
+            build-log-${{ matrix.arch }}.txt
+            test-results-${{ matrix.arch }}.txt
           if-no-files-found: warn
       - name: Attach to the release
         env:
@@ -151,10 +159,9 @@ jobs:
             gh release upload "${{ github.event.release.tag_name }}" dist/*.dmg --clobber
           else
             files=""
-            for f in dist/*.dmg mac-screenshot.png app-log.txt build-log.txt test-results.txt; do [ -f "$f" ] && files="$files $f"; done
+            for f in dist/*.dmg mac-screenshot-${{ matrix.arch }}.png app-log-${{ matrix.arch }}.txt build-log-${{ matrix.arch }}.txt test-results-${{ matrix.arch }}.txt; do [ -f "$f" ] && files="$files $f"; done
             gh release upload test-builds $files --clobber
           fi
-
   # ------------------------------------------------------------------ Linux: AppImage
   linux:
     needs: prepare
