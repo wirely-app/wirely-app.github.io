@@ -8,3 +8,4 @@ selftest.txt
 _site/
 web-smoke/
 pyodide-dl/
+.idea/

@@ -21,6 +21,9 @@ TYPE_INFO = {
     "TIP31": "Power NPN: 3 A, 40 V. For motors, lamps and solenoids.",
     "TIP120": "Darlington NPN: gain about 1000 and 5 A, so a tiny base current switches a big load — but it drops "
               "about 1 V even when fully on, so it runs warm.",
+    "BUF420AW": "High-voltage fast-switching power NPN (TO-247): 30 A, 450 V (1000 V with the base shorted to "
+                "the emitter), 250 W. Made for switch-mode supplies, ballasts and inverters. Its gain is low "
+                "(about 10 at high current), so it needs a strong base current, often from a driver stage.",
 
     # ---------------------------------------------------------------- PNP
     "BC558": "Small-signal PNP: 100 mA, 30 V. Turns on when the base is pulled low; the partner of the BC548.",
